@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRO-TIME</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+<h2>PRO-TIME</h2>
+
+<input id="email" placeholder="Enter Email"><br><br>
+
+<video id="video" autoplay playsinline width="100%"></video>
+<canvas id="canvas" style="display:none;"></canvas>
+
+<br><br>
+
+<button onclick="send('in')">CLOCK IN</button>
+<button onclick="send('out')">CLOCK OUT</button>
+
+<script>
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+
+// 🚀 camera (this works OUTSIDE GAS)
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => video.srcObject = stream)
+.catch(err => alert(err));
+
+function send(type) {
+  const email = document.getElementById("email").value;
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  canvas.getContext("2d").drawImage(video, 0, 0);
+
+  const image = canvas.toDataURL("image/jpeg", 0.7);
+
+  fetch("YOUR_GAS_URL_HERE", {
+    method: "POST",
+    body: JSON.stringify({
+      email: email,
+      type: type,
+      image: image,
+      branch: "osaka"
+    })
+  })
+  .then(res => res.json())
+  .then(res => alert(res.message));
+}
+</script>
+
+</body>
+</html>
