@@ -21,6 +21,12 @@
 <button onclick="send('out')">CLOCK OUT</button>
 
 <script>
+  const params = new URLSearchParams(window.location.search);
+const emailFromURL = params.get("email");
+
+if (emailFromURL) {
+  document.getElementById("email").value = emailFromURL;
+}
 const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 
