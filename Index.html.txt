@@ -39,8 +39,11 @@ function send(type) {
 
   const image = canvas.toDataURL("image/jpeg", 0.7);
 
-  fetch("YOUR_GAS_URL_HERE", {
+  fetch("https://script.google.com/macros/s/AKfycbwX0kTGGHfktv9qKzZ08CMoh4BVyM9Txdc2TT7_HGyYieQGWc4YhNW2kvu2JvoapYWc/exec", {
     method: "POST",
+     headers: {
+    "Content-Type": "application/json"
+  },
     body: JSON.stringify({
       email: email,
       type: type,
